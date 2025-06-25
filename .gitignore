@@ -1,9 +1,1 @@
 /backend/.env
-
-/backend/api/modificarUsuario.js
-/backend/api/modificarProduto.js
-/backend/api/atualizarQtd.js
-/backend/api/faturamento.js
-/backend/api/registrarVenda.js
-/backend/api/listarUsuarios.js
-/backend/api/limparTabela.js
