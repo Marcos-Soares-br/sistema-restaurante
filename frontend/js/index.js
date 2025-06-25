@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchQuantidade() {
     let qtd;
     try {
-        qtd = await fetch('http://localhost:3806/QtdDasPorcoes', {
+        qtd = await fetch('https://api-recanto-do-sul.vercel.app/api/qtdDasPorcoes', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ async function fetchQuantidade() {
     const pFatur = document.getElementById('pFatur');
     let faturamentoResp;
     try {
-        faturamentoResp = await fetch('http://localhost:3806/Faturamento', {
+        faturamentoResp = await fetch('https://api-recanto-do-sul.vercel.app/api/faturamento', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ async function carregarOpcoes() {
         let result= [];
 
         if (cardapio == 'nada') {
-            const response = await fetch('http://localhost:3806/ExibirCardapio');
+            const response = await fetch('https://api-recanto-do-sul.vercel.app/api/exibirCardapio');
             if (!response.ok) {
                 throw new Error('Falha ao buscar cardápio: ' + response.statusText);
             }
@@ -265,7 +265,7 @@ async function registrarPedido() {
     };
 
     try {
-        const response = await fetch('http://localhost:3806/RegistrarPedido', {
+        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/registrarPedido', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,4 +1,4 @@
-import { autenticarToken } from '../authmiddleware.js'; 
+import { autenticarToken } from '../authmidleware.js'; 
 import { cadastrarUsuario } from '../models/dbModel.js'; 
 
 // Função Serverless para a rota "Cadastrar Usuario"
@@ -11,7 +11,16 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const usuario = req.body;
+      const { nome, senha } = req.body;
+
+      if (!nome || !senha) {
+        return res.status(400).json({ error: 'Nome e senha são obrigatórios.' });
+      }
+
+      const usuario = {
+        nome,
+        senha,
+      };
 
       const usuarioCadastrado = await cadastrarUsuario(usuario);
 

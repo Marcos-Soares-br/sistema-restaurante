@@ -80,7 +80,7 @@ async function registerUser() {
     }
 
     try {
-        const response = await fetch('http://localhost:3806/CadastrarUsuario', {
+        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/cadastrarUsuario', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ async function registerProduct() {
 
 console.log(setorPed)
     try {
-        const response = await fetch('http://localhost:3806/RegistrarProduto', {
+        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/registrarProduto', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ console.log(setorPed)
 
 /* MODIFICAÇÕES DE INFORMAAÇÕES*/
 async function listarUsuarios() {
-    const resposta = await fetch('http://localhost:3806/ListarUsuarios', {
+    const resposta = await fetch('https://api-recanto-do-sul.vercel.app/api/listarUsuarios', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ async function modifyUser() {
     }
 
     try {
-        const response = await fetch('http://localhost:3806/ModificarUsuario', {
+        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/modificarUsuario', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ async function loadItens() {
         let result= [];
 
         if (cardapio == 'nada') {
-            const response = await fetch('http://localhost:3806/ExibirCardapio');
+            const response = await fetch('https://api-recanto-do-sul.vercel.app/api/exibirCardapio');
             if (!response.ok) {
                 throw new Error('Falha ao buscar cardápio: ' + response.statusText);
             }
@@ -308,7 +308,7 @@ async function modifyProduct() {
         };
 
         try {
-            const response = await fetch('http://localhost:3806/ModificarProduto', {
+            const response = await fetch('https://api-recanto-do-sul.vercel.app/api/modificarProduto', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

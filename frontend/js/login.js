@@ -31,7 +31,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
   try {
     
-    const response = await fetch('http://localhost:3806/LogarUsuario', {
+    const response = await fetch('https://api-recanto-do-sul.vercel.app/api/logarUsuario', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

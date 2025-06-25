@@ -39,7 +39,7 @@ async function gerarBtnsMesa() {
 
 async function obterMesasAtivas() {
     try {
-        const mesas = await fetch(`http://localhost:3806/ObterMesasAtivas`, {
+        const mesas = await fetch(`https://api-recanto-do-sul.vercel.app/api/obterMesasAtivas`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ async function obterMesasAtivas() {
 
 async function buscarPedidos(m) {
     try {
-        const pedidos = await fetch(`http://localhost:3806/FechamentoDaConta?mesa=${m}`, {
+        const pedidos = await fetch(`https://api-recanto-do-sul.vercel.app/api/fechamentoDaConta?mesa=${m}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -70,22 +70,6 @@ async function buscarPedidos(m) {
 // Dados das mesas
 let dadosDaBusca;
 let dadosMesas = {} ;
-/*{
-    3: {
-        itens: [
-            { id: 1, nome: 'Filé à Parmegiana', quantidade: 1, valorUnitario: 25.90 },
-            { id: 5, nome: 'Refrigerante 600ml', quantidade: 2, valorUnitario: 8.50 }
-        ]
-    },
-    '1-B': {
-        itens: [
-            { id: 2, nome: 'Picanha ao Ponto', quantidade: 2, valorUnitario: 22.50 },
-            { id: 3, nome: 'Espaguete à Bolonhesa', quantidade: 1, valorUnitario: 18.90 },
-            { id: 6, nome: 'Suco Natural', quantidade: 3, valorUnitario: 12.00 },
-            { id: 8, nome: 'Sobremesa do Dia', quantidade: 2, valorUnitario: 10.50 }
-        ]
-    }
-}; */
 
 // Produtos disponíveis
 const produtos = JSON.parse(localStorage.getItem('cardapio'));
@@ -289,7 +273,7 @@ async function removerItem(id) {
 
     const details = { id: id };
     try {
-        const response = await fetch('http://localhost:3806/CancelarPedido', {
+        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/cancelarPedido', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -334,7 +318,7 @@ async function finalizarConta() {
 
     const details = { valor: valorVenda.trim() };
     try {
-        const response = await fetch('http://localhost:3806/RegistarVenda', {
+        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/registarVenda', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -357,7 +341,7 @@ async function finalizarConta() {
     // 2- atualizar a quantidade de porções vendidas
     const itens = dadosMesas[mesaSelecionada].itens;
     try {
-        const response = await fetch('http://localhost:3806/AtualizarQtd', {
+        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/atualizarQtd', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -380,7 +364,7 @@ async function finalizarConta() {
     // 3- Excluir os pedidos da mesa para librera-la
      try {
         const param = {mesa: mesaSelecionada};
-        const response = await fetch('http://localhost:3806/ExcluirPedidosDaMesa', {
+        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/excluirPedidosDaMesa', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -430,7 +414,7 @@ async function mostrarOpcoes(filtro) {
         let result= [];
 
         if (cardapio == 'nada') {
-            const response = await fetch('http://localhost:3806/ExibirCardapio');
+            const response = await fetch('https://api-recanto-do-sul.vercel.app/api/exibirCardapio');
             if (!response.ok) {
                 throw new Error('Falha ao buscar cardápio: ' + response.statusText);
             }
