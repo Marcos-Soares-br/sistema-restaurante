@@ -318,7 +318,7 @@ async function finalizarConta() {
 
     const details = { valor: valorVenda.trim() };
     try {
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/registarVenda', {
+        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/registrarVenda', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
