@@ -1,7 +1,9 @@
+import corsMiddleware from '../corsConfig.js';
 import { logarUsuario } from '../models/dbModel.js'; 
 
 // Função Serverless para a rota "Logar Usuario"
 export default async function handler(req, res) {
+  corsMiddleware(req, res, () => {});
 
   if (req.method === 'POST') {
     try {

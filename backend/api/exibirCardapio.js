@@ -1,7 +1,10 @@
+import corsMiddleware from '../corsConfig.js';
 import { exibirCardapio } from '../models/dbModel.js'; 
 
 // Função Serverless para a rota "Exibir Cardapio"
 export default async function handler(req, res) {
+
+  corsMiddleware(req, res, () => {});
 
   if(req.method == 'POST') {
     try {

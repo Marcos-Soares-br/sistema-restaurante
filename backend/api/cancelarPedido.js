@@ -1,8 +1,11 @@
+import corsMiddleware from '../corsConfig.js';
 import { autenticarToken } from '../authmidleware.js'; 
 import { cancelarPedido } from '../models/dbModel.js'; 
 
 // Função Serverless para a rota "cancelarPedido"
 export default async function handler(req, res) {
+  corsMiddleware(req, res, () => {});
+  
   const tokenValido = autenticarToken(req, res, () => {});
 
   if (!tokenValido) {
