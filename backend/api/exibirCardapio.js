@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 
   corsMiddleware(req, res, () => {});
 
-  if(req.method == 'POST') {
+  if(req.method == 'GET') {
     try {
         const cardapio = await exibirCardapio();
         res.status(200).json(cardapio);
