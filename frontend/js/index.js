@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    fetchQuantidade();
-    fetchFaturamento();
+    //fetchQuantidade();
+    //fetchFaturamento();
     carregarOpcoes();
     verificaCancelamento();
     setInterval(verificaCancelamento, 30000);
