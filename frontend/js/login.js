@@ -31,7 +31,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
   try {
     
-    const response = await fetch('https://api-recanto-do-sul.vercel.app/api/logarUsuario', {
+    const response = await fetch('https://api-recanto-production.up.railway.app/LogarUsuario', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
       localStorage.setItem('nome', data.usuario.nome);
 
       // Redirecionar ou carregar outra interface
-      window.location.href = 'http://127.0.0.1:5500/frontend/index.html';
+      window.location.href = 'index.html';
 
     } else {
       const pFalha = document.getElementById('textoDeFalha');

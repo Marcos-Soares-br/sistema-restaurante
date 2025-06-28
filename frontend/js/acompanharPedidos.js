@@ -23,7 +23,7 @@ const emptyState = document.getElementById('emptyState');
 async function fetchPedidos(setor) {
     try {
         // Fazendo a requisição para a API com o setor
-        const response = await fetch(`https://api-recanto-do-sul.vercel.app/api/exibirPedidos?setor=${setor}`, {
+        const response = await fetch(`https://api-recanto-production.up.railway.app/ExibirPedidos?setor=${setor}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ async function cancelarPedido(id, item, mesa) {
     const details = { id: id };
 
     try {
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/cancelarPedido', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/CancelarPedido', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ async function liberarPedido(id) {
     const details = { id: id };
 
     try {
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/liberarPedido', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/LiberarPedido', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

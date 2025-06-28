@@ -39,7 +39,7 @@ async function gerarBtnsMesa() {
 
 async function obterMesasAtivas() {
     try {
-        const mesas = await fetch(`https://api-recanto-do-sul.vercel.app/api/obterMesasAtivas`, {
+        const mesas = await fetch(`https://api-recanto-production.up.railway.app/ObterMesasAtivas`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ async function obterMesasAtivas() {
 
 async function buscarPedidos(m) {
     try {
-        const pedidos = await fetch(`https://api-recanto-do-sul.vercel.app/api/fechamentoDaConta?mesa=${m}`, {
+        const pedidos = await fetch(`https://api-recanto-production.up.railway.app/FechamentoDaConta?mesa=${m}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -273,7 +273,7 @@ async function removerItem(id) {
 
     const details = { id: id };
     try {
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/cancelarPedido', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/CancelarPedido', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -318,7 +318,7 @@ async function finalizarConta() {
 
     const details = { valor: valorVenda.trim() };
     try {
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/registrarVenda', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/RegistrarVenda', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -341,7 +341,7 @@ async function finalizarConta() {
     // 2- atualizar a quantidade de porções vendidas
     const itens = dadosMesas[mesaSelecionada].itens;
     try {
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/atualizarQtd', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/AtualizarQtd', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -364,7 +364,7 @@ async function finalizarConta() {
     // 3- Excluir os pedidos da mesa para librera-la
      try {
         const param = {mesa: mesaSelecionada};
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/excluirPedidosDaMesa', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/ExcluirPedidosDaMesa', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -414,7 +414,7 @@ async function mostrarOpcoes(filtro) {
         let result= [];
 
         if (cardapio == 'nada') {
-            const response = await fetch('https://api-recanto-do-sul.vercel.app/api/exibirCardapio');
+            const response = await fetch('https://api-recanto-production.up.railway.app/ExibirCardapio');
             if (!response.ok) {
                 throw new Error('Falha ao buscar cardápio: ' + response.statusText);
             }

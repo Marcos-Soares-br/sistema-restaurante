@@ -80,7 +80,7 @@ async function registerUser() {
     }
 
     try {
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/cadastrarUsuario', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/CadastrarUsuario', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ async function registerProduct() {
 
 console.log(setorPed)
     try {
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/registrarProduto', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/RegistrarProduto', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ console.log(setorPed)
 
 /* MODIFICAÇÕES DE INFORMAAÇÕES*/
 async function listarUsuarios() {
-    const resposta = await fetch('https://api-recanto-do-sul.vercel.app/api/listarUsuarios', {
+    const resposta = await fetch('https://api-recanto-production.up.railway.app/ListarUsuarios', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ async function modifyUser() {
     }
 
     try {
-        const response = await fetch('https://api-recanto-do-sul.vercel.app/api/modificarUsuario', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/ModificarUsuario', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ async function loadItens() {
         let result= [];
 
         if (cardapio == 'nada') {
-            const response = await fetch('https://api-recanto-do-sul.vercel.app/api/exibirCardapio');
+            const response = await fetch('https://api-recanto-production.up.railway.app/ExibirCardapio');
             if (!response.ok) {
                 throw new Error('Falha ao buscar cardápio: ' + response.statusText);
             }
@@ -308,7 +308,7 @@ async function modifyProduct() {
         };
 
         try {
-            const response = await fetch('https://api-recanto-do-sul.vercel.app/api/modificarProduto', {
+            const response = await fetch('https://api-recanto-production.up.railway.app/ModificarProduto', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
