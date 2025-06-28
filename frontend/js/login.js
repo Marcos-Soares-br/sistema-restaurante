@@ -49,8 +49,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
       localStorage.setItem('token', data.token);
       localStorage.setItem('nome', data.usuario.nome);
 
-      // Redirecionar ou carregar outra interface
-      window.location.href = 'index.html';
+      // Redirecionar 
+      window.location.href = '../index.html';
 
     } else {
       const pFalha = document.getElementById('textoDeFalha');

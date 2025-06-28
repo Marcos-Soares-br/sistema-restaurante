@@ -141,7 +141,23 @@ async function cancelarPedido(id, item, mesa) {
         const result = await response.json();
         
         localStorage.setItem('alertaPedidoCancelado', `Pedido: ${item} da mesa ${mesa} CANCELADO!`);
+
         console.log(`Pedido cancelado: `, result);
+        Toastify({
+            text: "Pedido Cancelado!",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", 
+            position: "right", 
+            stopOnFocus: true,
+            style: {
+                background: "rgb(214, 218, 12)",
+                "text-align": 'center',
+                "min-width": "250px"
+            },
+        }).showToast();
+
     } catch (error) {
         console.error('Erro ao cancelar pedido:', error);
     }
@@ -169,6 +185,21 @@ async function liberarPedido(id) {
         if (!response.ok) {
             throw new Error('Falha ao cancelar pedido: ' + response.statusText);
         }
+
+        Toastify({
+            text: "Pedido Liberado!",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", 
+            position: "right", 
+            stopOnFocus: true,
+            style: {
+                background: "rgb(34, 197, 94)",
+                "text-align": 'center',
+                "min-width": "250px"
+            },
+        }).showToast();
 
         
     } catch (error) {

@@ -9,6 +9,7 @@
     <script src="./js/style.js"></script>
 
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -21,7 +22,7 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <span class="text-white" id="nomeUsuario"></span>
+                    <span class="text-white" id="nomeUsuario">Olá, Marcos</span>
                     <button id="logoutBtn" class="bg-white text-primary px-4 py-2 rounded-md hover:bg-gray-100 transition-colors btn-primary">
                         Sair
                     </button>
@@ -30,8 +31,8 @@
         </header>
 
         <!-- Conteúdo Principal -->
-        <main class="flex-grow container mx-auto px-4 py-7">
-            <div class="mb-8">
+        <main class="flex-grow container mx-auto px-4 py-4 sm:py-7">
+            <div class="mb-4 sm:mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Painel de Controle</h2>
             </div>
 
@@ -247,7 +248,7 @@
                     </label>
                     
                 </div>
-                <div class="mb-4 flex gap-6 justify-center">
+                <div class="mb-4 flex gap-4 justify-center">
                     <a href="pages/acompanhar-pedidos.html?setor=cozinha">
                         <div class="w-32 bg-primary rounded-md p-6 text-white flex flex-col items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
@@ -258,7 +259,7 @@
                     </a>
 
                     <a href="pages/acompanhar-pedidos.html?setor=copa">
-                        <div class="w-32 bg-primary rounded-md p-6 text-white flex flex-col items-center justify-center">
+                        <div class="w-25 bg-primary rounded-md p-6 text-white flex flex-col items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
                                 <path d="M20.832 4.555A1 1 0 0 0 20 3H4a1 1 0 0 0-.832 1.554L11 16.303V20H8v2h8v-2h-3v-3.697l7.832-11.748zm-2.7.445-2 3H7.868l-2-3h12.264z"></path>
                             </svg>
@@ -281,6 +282,9 @@
         </div>
     </div>
 
+    <script src="js/autenticar.js"></script>
     <script src="js/index.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </body>
 </html>

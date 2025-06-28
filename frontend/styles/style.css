@@ -10,7 +10,7 @@ body {
 
 .logo {
     font-family: 'lucida';
-    font-size: 1.6rem;
+    font-size: 1.4rem;
 }
 
 .card, .btn-primary {
@@ -71,4 +71,10 @@ textarea {
 
 textarea {
     resize: none !important;
+}
+
+@media (max-width: 550px) {
+    #nomeUsuario {
+        display: none;
+    }
 }

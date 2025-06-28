@@ -379,7 +379,21 @@ async function finalizarConta() {
 
         const result = await response.json();
 
-        console.log('Mesa encerrada:', result);
+        Toastify({
+            text: `Mesa encerrada: ${result}`,
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", 
+            position: "right", 
+            stopOnFocus: true,
+            style: {
+                background: "rgb(34, 197, 94)",
+                "text-align": 'center',
+                "min-width": "250px"
+            },
+        }).showToast();
+
     } catch (error) {
         console.error('Erro ao encerrar mesa:', error);
     }

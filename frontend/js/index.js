@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    fetchQuantidade();
-    fetchFaturamento();
+    //fetchQuantidade();
+    //fetchFaturamento();
     carregarOpcoes();
     verificaCancelamento();
     setInterval(verificaCancelamento, 30000);
@@ -282,7 +282,21 @@ async function registrarPedido() {
 
         console.log('Pedido registrado:', result);
         document.getElementById('registrarPedidoModal').classList.add('hidden');
-        //notificação: pedido registrado
+        Toastify({
+            text: "Pedido Registrado!",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", 
+            position: "right", 
+            stopOnFocus: true,
+            style: {
+                background: "rgb(34, 197, 94)",
+                "text-align": 'center',
+                "min-width": "250px"
+            },
+        }).showToast();
+
     } catch (error) {
         alert('Falha ao registrar pedido.')
     }
@@ -293,5 +307,5 @@ function verificaCancelamento() {
     if (cancelamento) {
         alert(cancelamento);
         localStorage.removeItem('alertaPedidoCancelado')
-    } 
+    }
 }

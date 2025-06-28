@@ -95,7 +95,20 @@ async function registerUser() {
         const data = await response.json();
 
         if (response.ok) {
-            alert('Usuário cadastrado com sucesso!');
+            Toastify({
+                text: "Usuário Cadastrado!!",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                style: {
+                    background: "rgb(34, 197, 94)",
+                    "text-align": 'center',
+                    "min-width": "250px"
+                },
+            }).showToast();
             userModal.classList.add('hidden');
 
         } else if (response.status === 403) {
@@ -130,7 +143,6 @@ async function registerProduct() {
     else if (category == 3) { setorPed = 'churrasqueira'}
     else if (category == 4) { setorPed = 'outros'}
 
-console.log(setorPed)
     try {
         const response = await fetch('https://api-recanto-production.up.railway.app/RegistrarProduto', {
             method: 'POST',
@@ -148,7 +160,20 @@ console.log(setorPed)
         const data = await response.json();
 
         if (response.ok) {
-            alert('Produto cadastrado com sucesso!');
+            Toastify({
+                text: "Produto Registrado!",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                style: {
+                    background: "rgb(34, 197, 94)",
+                    "text-align": 'center',
+                    "min-width": "250px"
+                },
+            }).showToast();
             productModal.classList.add('hidden');
 
         } else if (response.status === 403) {
@@ -180,13 +205,12 @@ async function listarUsuarios() {
 
     const containerDeUsers = document.querySelector('#containerDeUsers');
 
-    console.log(usuarios)
-        usuarios.forEach( (user) => {
-            const op = document.createElement('option');
-            op.value = user.id;
-            op.innerHTML = `id: ${user.id} nome: ${user.nome}`;
-            containerDeUsers.appendChild(op);
-        })
+    usuarios.forEach( (user) => {
+        const op = document.createElement('option');
+        op.value = user.id;
+        op.innerHTML = `id: ${user.id} nome: ${user.nome}`;
+        containerDeUsers.appendChild(op);
+    })
     
 }
 
@@ -224,7 +248,21 @@ async function modifyUser() {
         const data = await response.json();
 
         if (response.ok) {
-            alert('Usuário modificado com sucesso!');
+            Toastify({
+                text: "Usuário Atualizado!",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                style: {
+                    background: "rgb(34, 197, 94)",
+                    "text-align": 'center',
+                    "min-width": "250px"
+                },
+            }).showToast();
+
             modifyUserModal.classList.add('hidden');
 
         } else if (response.status === 403) {
@@ -320,7 +358,20 @@ async function modifyProduct() {
             const result = await response.json();
 
             if (response.ok) {
-                alert("Produto modificado com sucesso!");
+            Toastify({
+                text: "Produto Atualizado!",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top", 
+                position: "right", 
+                stopOnFocus: true,
+                style: {
+                    background: "rgb(34, 197, 94)",
+                    "text-align": 'center',
+                    "min-width": "250px"
+                },
+            }).showToast();
                 modifyProductModal.classList.add('hidden')
             } else {
                 alert("Erro ao modificar produto: " + (result.message || "Erro desconhecido"));
