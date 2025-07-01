@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema - Restaurante</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./js/style.js"></script>
+
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script>
+        const token = localStorage.getItem('token');
+
+        if (!token) window.location.href = 'pages/login.html';
+    </script>
+    
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-primary shadow-md">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <div class="flex items-center">
+                    <h1 class="ml-2 font-bold text-white logo">Restaurante</h1>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <span class="text-white" id="nomeUsuario"></span>
+                    <button id="logoutBtn" class="bg-white text-primary px-4 py-2 rounded-md hover:bg-gray-100 transition-colors btn-primary">
+                        Sair
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Conteúdo Principal -->
+        <main class="flex-grow container mx-auto px-4 py-4 sm:py-7">
+            <div class="mb-4 sm:mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Painel de Controle</h2>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 hidden" id="dashboard">
+                <div id="porcoesVendidasCard" class="bg-white rounded-lg shadow-md p-6 flex items-center justify-between card cursor-pointer">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Porções Vendidas</h3>
+                        <p id="pTotal" class="text-3xl font-bold text-primary">0</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6 flex items-center justify-between card">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Faturamento</h3>
+                        <p id="pFatur" class="text-3xl font-bold text-primary">R$ 0,00</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 24 24" style="fill: rgba(229, 62, 62, 1);">
+                            <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm1 14.915V18h-2v-1.08c-2.339-.367-3-2.002-3-2.92h2c.011.143.159 1 2 1 1.38 0 2-.585 2-1 0-.324 0-1-2-1-3.48 0-4-1.88-4-3 0-1.288 1.029-2.584 3-2.915V6.012h2v1.109c1.734.41 2.4 1.853 2.4 2.879h-1l-1 .018C13.386 9.638 13.185 9 12 9c-1.299 0-2 .516-2 1 0 .374 0 1 2 1 3.48 0 4 1.88 4 3 0 1.288-1.029 2.584-3 2.915z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Features -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <div id="registrarPedidoCard" class="bg-white rounded-lg shadow-md overflow-hidden card cursor-pointer">
+                    <div class="bg-primary h-2"></div>
+                    <div class="p-6">
+                        <div class="bg-red-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 24 24" style="fill: rgba(229, 62, 62, 1);">
+                                <path d="m16 2.012 3 3L16.713 7.3l-3-3zM4 14v3h3l8.299-8.287-3-3zm0 6h16v2H4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Registrar Pedidos</h3>
+                        <p class="text-gray-600 mb-4">Adicione novos pedidos, selecione produtos e atribua a uma mesa.</p>
+                        <button class="w-full bg-primary text-white py-2 rounded-md hover:bg-red-700 transition-colors btn-primary">
+                            Acessar
+                        </button>
+                    </div>
+                </div>
+
+                <div id="acompanharPedCard" class="bg-white rounded-lg shadow-md overflow-hidden card cursor-pointer">
+                    <div class="bg-primary h-2"></div>
+                    <div class="p-6">
+                        <div class="bg-red-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 24 24" style="fill: rgba(229, 62, 62, 1);">
+                                <path d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316-.105-.316C21.927 11.617 19.633 5 12 5zm0 11c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z"></path><path d="M12 10c-1.084 0-2 .916-2 2s.916 2 2 2 2-.916 2-2-.916-2-2-2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Acompanhar Pedidos</h3>
+                        <p class="text-gray-600 mb-4">Visualize e gerencie o status dos pedidos em andamento.</p>
+                        <br>
+                        <button class="w-full bg-primary text-white py-2 rounded-md hover:bg-red-700 transition-colors btn-primary">
+                            Acessar
+                        </button>
+                    </div>
+                </div>
+
+                <a href="pages/fechar-contas.html">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden card">
+                        <div class="bg-primary h-2"></div>
+                        <div class="p-6">
+                            <div class="bg-red-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 24 24" style="fill: rgba(229, 62, 62, 1);">
+                                    <path d="M12 15c-1.84 0-2-.86-2-1H8c0 .92.66 2.55 3 2.92V18h2v-1.08c2-.34 3-1.63 3-2.92 0-1.12-.52-3-4-3-2 0-2-.63-2-1s.7-1 2-1 1.39.64 1.4 1h2A3 3 0 0 0 13 7.12V6h-2v1.09C9 7.42 8 8.71 8 10c0 1.12.52 3 4 3 2 0 2 .68 2 1s-.62 1-2 1z"></path><path d="M5 2H2v2h2v17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4h2V2H5zm13 18H6V4h12z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Fechar Contas</h3>
+                            <p class="text-gray-600 mb-4">Finalize pedidos, gere a conta e registre o pagamento.</p>
+                            <br>
+                            <button class="w-full bg-primary text-white py-2 rounded-md hover:bg-red-700 transition-colors btn-primary">
+                                Acessar
+                            </button>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="pages/admin.html" class="hidden" id="linkConfiguracoes">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden card">
+                        <div class="bg-primary h-2"></div>
+                        <div class="p-6">
+                            <div class="bg-red-100 p-3 rounded-full w-14 h-14 flex items-center justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 24 24" style="fill: rgba(229, 62, 62, 1);">
+                                    <path d="m2.344 15.271 2 3.46a1 1 0 0 0 1.366.365l1.396-.806c.58.457 1.221.832 1.895 1.112V21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1.598a8.094 8.094 0 0 0 1.895-1.112l1.396.806c.477.275 1.091.11 1.366-.365l2-3.46a1.004 1.004 0 0 0-.365-1.366l-1.372-.793a7.683 7.683 0 0 0-.002-2.224l1.372-.793c.476-.275.641-.89.365-1.366l-2-3.46a1 1 0 0 0-1.366-.365l-1.396.806A8.034 8.034 0 0 0 15 4.598V3a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v1.598A8.094 8.094 0 0 0 7.105 5.71L5.71 4.904a.999.999 0 0 0-1.366.365l-2 3.46a1.004 1.004 0 0 0 .365 1.366l1.372.793a7.683 7.683 0 0 0 0 2.224l-1.372.793c-.476.275-.641.89-.365 1.366zM12 8c2.206 0 4 1.794 4 4s-1.794 4-4 4-4-1.794-4-4 1.794-4 4-4z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Configurações</h3>
+                            <p class="text-gray-600 mb-4">Cadastre novos produtos, novos usuários e gerencie configurações.</p>
+                            <button class="w-full bg-primary text-white py-2 rounded-md hover:bg-red-700 transition-colors btn-primary">
+                                Acessar
+                            </button>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Modal Porcoes Vendidas -->
+    <div id="porcoesVendidasModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-4">
+            <div class="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-gray-800">Quantidade de Porções Vendidas</h3>
+                <button class="close-modal text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="px-6 py-4">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-sm leading-normal">
+                                <th class="py-3 px-4 text-left">Produto</th>
+                                <th class="py-3 px-4 text-left">Qtd</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableQtdPorcoes" class="text-gray-600 text-sm">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 px-6 py-4">
+                <button class="close-modal px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para registrar pedidos -->
+    <div id="registrarPedidoModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
+            <div class="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-gray-800">Registrar Novo Pedido</h3>
+                <button class="close-modal text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="px-6 py-4">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="table">
+                        Mesa
+                    </label>
+                    <input type="text" id="mesaNum"  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+                <div class="mb-4 flex justify-center">
+                    <input  type="text" id="filtroP" placeholder="Pesquise um poduto" 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    >
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="product">
+                        Produto
+                    </label>
+                    <select id="produtos" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="">Selecione um produto</option>
+                    </select>
+                </div>
+
+                <div class="mb-4 flex items-center justify-center gap-6">
+                    <button id="rmvBtn" class="rounded bg-primary text-white p-2 hover:bg-red-700 transition-colors">- Remover</button>
+                    <button id="adcBtn" class="rounded bg-green-500 text-white p-2 hover:bg-green-700 transition-colors">+ Adicionar</button>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="notes">
+                        Observações
+                    </label>
+                    <textarea id="obs" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Ex: Sem cebola, ponto da carne, etc."></textarea>
+                </div>
+
+                <div class="mb-4 bg-gray-100 p-2 rounded">
+                    <ul id="listaProdutos">
+                    </ul>
+                </div>
+                <div class="flex justify-between items-center border-t border-gray-200 pt-4">
+                    <button class="close-modal px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">
+                        Cancelar
+                    </button>
+                    <button id="registarPedidoBtn" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-red-700 transition-colors">
+                        Registrar Pedido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Acompanhar Pedidos -->
+     <div id="acompanharPedModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-lg mx-4">
+            <div class="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                <h3 class="text-xl font-semibold text-gray-800">Acompanhar Pedidos</h3>
+                <button class="close-modal text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="px-6 py-4">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm text-center font-medium mb-2">
+                        Escolha uma opção
+                    </label>
+                    
+                </div>
+                <div class="mb-4 flex gap-4 justify-center">
+                    <a href="pages/acompanhar-pedidos.html?setor=cozinha">
+                        <div class="w-32 bg-primary rounded-md p-6 text-white flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
+                                <path d="M21 10H3a1 1 0 0 0-1 1 10 10 0 0 0 5 8.66V21a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1.34A10 10 0 0 0 22 11a1 1 0 0 0-1-1zM9 9V7.93a4.51 4.51 0 0 0-1.28-3.15A2.49 2.49 0 0 1 7 3V2H5v1a4.51 4.51 0 0 0 1.28 3.17A2.49 2.49 0 0 1 7 7.93V9zm4 0V7.93a4.51 4.51 0 0 0-1.28-3.15A2.49 2.49 0 0 1 11 3V2H9v1a4.51 4.51 0 0 0 1.28 3.15A2.49 2.49 0 0 1 11 7.93V9zm4 0V7.93a4.51 4.51 0 0 0-1.28-3.15A2.49 2.49 0 0 1 15 3V2h-2v1a4.51 4.51 0 0 0 1.28 3.15A2.49 2.49 0 0 1 15 7.93V9z"></path>
+                            </svg>
+                            Cozinha
+                        </div>
+                    </a>
+
+                    <a href="pages/acompanhar-pedidos.html?setor=copa">
+                        <div class="w-25 bg-primary rounded-md p-6 text-white flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);">
+                                <path d="M20.832 4.555A1 1 0 0 0 20 3H4a1 1 0 0 0-.832 1.554L11 16.303V20H8v2h8v-2h-3v-3.697l7.832-11.748zm-2.7.445-2 3H7.868l-2-3h12.264z"></path>
+                            </svg>
+                            Copa
+                        </div>
+                    </a>
+
+                    <a href="pages/acompanhar-pedidos.html?setor=churrasqueira">
+                        <div class="w-32 bg-primary rounded-md p-6 text-white flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path fill="#fff" d="M159.3 5.4c7.8-7.3 19.9-7.2 27.7 .1c27.6 25.9 53.5 53.8 77.7 84c11-14.4 23.5-30.1 37-42.9c7.9-7.4 20.1-7.4 28 .1c34.6 33 63.9 76.6 84.5 118c20.3 40.8 33.8 82.5 33.8 111.9C448 404.2 348.2 512 224 512C98.4 512 0 404.1 0 276.5c0-38.4 17.8-85.3 45.4-131.7C73.3 97.7 112.7 48.6 159.3 5.4zM225.7 416c25.3 0 47.7-7 68.8-21c42.1-29.4 53.4-88.2 28.1-134.4c-4.5-9-16-9.6-22.5-2l-25.2 29.3c-6.6 7.6-18.5 7.4-24.7-.5c-16.5-21-46-58.5-62.8-79.8c-6.3-8-18.3-8.1-24.7-.1c-33.8 42.5-50.8 69.3-50.8 99.4C112 375.4 162.6 416 225.7 416z"/>
+                            </svg>
+                            Churrasqueira
+
+                        </div>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="js/index.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+</body>
+</html>
