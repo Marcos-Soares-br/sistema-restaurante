@@ -140,7 +140,19 @@ async function cancelarPedido(id, item, mesa) {
 
         const result = await response.json();
         
-        localStorage.setItem('alertaPedidoCancelado', `Pedido: ${item} da mesa ${mesa} CANCELADO!`);
+        const obj = {texto: `Pedido: ${item} da mesa ${mesa} CANCELADO!`}
+        const respo = await fetch('https://api-recanto-production.up.railway.app/Alertas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(obj)
+        });
+
+        if (!respo.ok) {
+            throw new Error('Falha ao alertar cancelamento: ' + respo.statusText);
+        }
 
         console.log(`Pedido cancelado: `, result);
         Toastify({
@@ -220,19 +232,12 @@ mesaFiltro.addEventListener('change', () => {
 renderizarTable();
 
 // ### SUPABASE REAL TIME ###
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+const { createClient } = supabase;
 
-const supabase = createClient('https://ganhpuaasnivswggphzw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdhbmhwdWFhc25pdnN3Z2dwaHp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4MTMwMTQsImV4cCI6MjA2NjM4OTAxNH0.Q7k0tgXEPUEgUr6BQrDd9f4pJVqtNJ3ZZMt9VWr2YQ0');
-
-const channel = supabase.channel('pedidos-channel');
+const _supabase = createClient('https://ganhpuaasnivswggphzw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdhbmhwdWFhc25pdnN3Z2dwaHp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4MTMwMTQsImV4cCI6MjA2NjM4OTAxNH0.Q7k0tgXEPUEgUr6BQrDd9f4pJVqtNJ3ZZMt9VWr2YQ0');
+const channel = _supabase.channel('pedidos-channel');
 
 channel
-  .on('connected', () => {
-    console.log('Conexão WebSocket estabelecida com sucesso!');
-  })
-  .on('disconnected', () => {
-    console.log('Conexão WebSocket perdida!');
-  })
   .on('postgres_changes', 
     { event: 'INSERT', schema: 'public', table: 'pedidos' }, 
     (payload) => {
@@ -240,3 +245,6 @@ channel
       renderizarTable(); 
     })
   .subscribe();
+
+window.cancelarPedido = cancelarPedido;
+window.liberarPedido = liberarPedido;

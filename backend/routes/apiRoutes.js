@@ -28,6 +28,10 @@ router.get('/Faturamento', autenticarToken, autorizarNivel('gerente'), dbControl
 router.get('/ObterMesasAtivas', autenticarToken, dbController.obterMesasAtivas);
 router.get('/FechamentoDaConta', autenticarToken, dbController.fechamentoDaConta);
 
-router.post('/LimparTabela', autenticarToken, dbController.limparTabela);
+router.put('/ResetarInfos', autenticarToken, autorizarNivel, dbController.resetarInfos);
+
+router.get('/Alertas', autenticarToken, dbController.alertas);
+router.post('/Alertas', autenticarToken, dbController.alertas);
+router.delete('/Alertas', autenticarToken, dbController.alertas);
 
 module.exports = router;

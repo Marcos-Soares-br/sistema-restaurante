@@ -308,27 +308,66 @@ async function fechamentoDaConta(req, res) {
   }
 }
 
-async function limparTabela(req, res) {
+async function resetarInfos(req, res) {
   try {
-    const { tabela } = req.body;
 
-    if (!tabela) {
-      return res.status(400).json({ error: 'Parametro obrigatório.' });
-    }
+    await dbModel.resetarInfos();
+    res.status(201).json({ message: 'Infos resetadas com sucesso.' });
 
-    await dbModel.limparTabela(tabela);
-    res.status(201).json({ message: 'Tabela limpada com sucesso.' });
   } catch (error) {
-    console.error('Erro ao limpar tabela:', error);
-    res.status(500).json({ error: 'Erro ao limpar tabela', details: error.message });
+    console.error('Erro ao resetar infos:', error);
+    res.status(500).json({ error: 'Erro ao resetar infos', details: error.message });
   }
 }
 
+async function alertas(req, res) {
+  const metodo = req.method;
+
+  if ( metodo == 'POST' ) {
+    try {
+      const { texto } = req.body;
+
+      if (!texto) return res.status(400).json({ error: 'Texto do alerta obrigatório.' });
+
+      await dbModel.registrarAlerta(texto);
+      res.status(201).json({ message: 'Alerta registrado com sucesso.' });
+
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao registrar alerta', details: error.message });
+    }
+
+  } else if ( metodo == 'GET' ) {
+    try {
+      const alerta = await dbModel.listarAlertas();
+      res.status(200).json(alerta);
+
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao listar alertas', details: error.message });
+    }
+
+  } else if ( metodo == 'DELETE' ) {
+      try {
+        const { id } = req.body;
+
+        if (!id) return res.status(400).json({ error: 'Parametro obrigatório.' });
+
+        await dbModel.deletarAlerta(id);
+        res.status(201).json({ message: 'Alerta deletado com sucesso.' });
+
+      } catch (error) {
+        res.status(500).json({ error: 'Erro ao deletar alerta', details: error.message });
+      }
+
+  } else {
+    return res.status(405).json({ mensagem: 'Método não permitido!' });
+  }
+
+}
 
 module.exports = {
   cadastrarUsuario, logarUsuario, listarUsuarios, atualizarUsuario,
   registrarProduto, atualizarProduto, exibirCardapio, excluirPedidosDaMesa,
   registrarPedido, cancelarPedido, liberarPedido, exibirPedidos,
   qtdDasPorcoes, atualizarQtd, registarVenda,  faturamento,
-  obterMesasAtivas, fechamentoDaConta, limparTabela
+  obterMesasAtivas, fechamentoDaConta, resetarInfos, alertas
 };

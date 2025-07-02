@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/fav-icon.png" type="image/x-icon">
     <title>Sistema - Restaurante</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,6 +12,8 @@
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <script>
@@ -173,9 +176,9 @@
                     </table>
                 </div>
             </div>
-            <div class="border-t border-gray-200 px-6 py-4">
-                <button class="close-modal px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors">
-                    Fechar
+            <div class="border-t border-gray-200 px-6 py-4 flex justify-between">
+                <button id="resetarInfos" class="px-4 py-2 border border-gray-300 rounded-md text-white bg-primary hover:bg-red-700 transition-colors">
+                    Reiniciar Contagem
                 </button>
             </div>
         </div>

@@ -273,21 +273,56 @@ async function fechamentoDaConta(mesaNumero) {
   }
 }
 
-async function limparTabela(tab) {
+async function resetarInfos() {
   try {
-    await envie`TRUNCATE TABLE ${tab}`;
+    await envie`TRUNCATE TABLE vendas`;
+
+    await envie`UPDATE quantidades SET qtd_quantidades = 0 WHERE nome_item_quantidades != 'paralelepipedo';`;
 
   } catch (error) {
-    console.error('Erro ao limpar tabela:', error);
+    console.error('Erro ao resetar dados:', error);
   } 
 }
 
+async function registrarAlerta(texto) {
+  try {
+    await envie`INSERT INTO alertas (texto_alertas)VALUES (${texto});`;
 
+  } catch (error) {
+    console.error('Erro ao registar alerta: ', error);
+  } 
+
+}
+
+async function listarAlertas() {
+  try {
+    const rows = await envie`SELECT * FROM alertas`;
+
+    return rows.map(row => ({
+        id: row.id_alertas,
+        texto: row.texto_alertas,
+      }));
+    
+  } catch (error) {
+    console.error('Erro ao listar alertas: ', error);
+  }
+
+}
+
+async function deletarAlerta(id) {
+  try {
+    await envie`DELETE FROM alertas WHERE id_alertas  = ${id};`; 
+    
+  } catch (error) {
+    console.error('Erro ao deletar alerta: ', error);
+  }
+}
 
 export  { 
   cadastrarUsuario, logarUsuario, listarUsuarios, atualizarUsuario, 
   registrarProduto, atualizarProduto, exibirCardapio, excluirPedidosDaMesa,
   registrarPedido, exibirPedidos, cancelarPedido, liberarPedido,
   qtdDasPorcoes, atualizarQtd, registarVenda, faturamento,
-  obterMesasAtivas, fechamentoDaConta, limparTabela
+  obterMesasAtivas, fechamentoDaConta, resetarInfos, 
+  registrarAlerta, listarAlertas, deletarAlerta
 };

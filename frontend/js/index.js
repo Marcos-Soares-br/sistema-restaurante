@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchFaturamento();
     carregarOpcoes();
     verificaCancelamento();
-    setInterval(verificaCancelamento, 30000);
 
 });
 
@@ -147,7 +146,7 @@ async function fetchQuantidade() {
 // função para carregar as opções de pedidos
 async function carregarOpcoes(filtro) {
     try {
-        const cardapio = localStorage.getItem('cardapio') || 'nada';
+        const cardapio = sessionStorage.getItem('cardapio') || 'nada';
         let result= [];
 
         if (cardapio == 'nada') {
@@ -157,7 +156,7 @@ async function carregarOpcoes(filtro) {
             }
 
              result = await response.json();
-             localStorage.setItem('cardapio', JSON.stringify(result));
+             sessionStorage.setItem('cardapio', JSON.stringify(result));
         } else {
              result = JSON.parse(cardapio);
         }
@@ -329,13 +328,54 @@ async function registrarPedido() {
 const filtroProduto = document.getElementById('filtroP')
 filtroProduto.addEventListener('change', () =>  carregarOpcoes(filtroProduto.value) )
 
-function verificaCancelamento() {
-    const cancelamento = localStorage.getItem('alertaPedidoCancelado')
-    if (cancelamento) {
-        alert(cancelamento);
-        localStorage.removeItem('alertaPedidoCancelado')
+async function verificaCancelamento() {
+    try {
+        let respo = await fetch('https://api-recanto-production.up.railway.app/Alertas', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!respo.ok) {
+            throw new Error('Falha ao alertar cancelamento: ' + respo.statusText);
+        }
+
+        respo = await respo.json();
+
+        respo.forEach( async (el) => {
+            alert(el.texto);
+
+            const objId = {id: el.id};
+            await fetch('https://api-recanto-production.up.railway.app/Alertas', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify(objId)
+            });
+        });
+        
+    } catch (error) {
+        console.error('Erro ao buscar alertas:', error);
     }
 }
+// ### SUPABASE REAL TIME ###
+const { createClient } = supabase;
+
+const _supabase = createClient('https://ganhpuaasnivswggphzw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdhbmhwdWFhc25pdnN3Z2dwaHp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4MTMwMTQsImV4cCI6MjA2NjM4OTAxNH0.Q7k0tgXEPUEgUr6BQrDd9f4pJVqtNJ3ZZMt9VWr2YQ0');
+const channel = _supabase.channel('alertas-channel');
+
+channel
+  .on('postgres_changes', 
+    { event: 'INSERT', schema: 'public', table: 'alertas' }, 
+    (payload) => {
+      console.log('Mudança detectada!', payload);
+      verificaCancelamento(); 
+    })
+  .subscribe();
 
 async function carregarPagFuncionario() {
     let nivelDeAcesso = localStorage.getItem('nivel');
@@ -355,3 +395,25 @@ document.querySelector('#mesaNum').addEventListener('input', (e) => {
         e.target.value = e.target.value.slice(0,4)
     }
 })
+
+//Resetar quantidades e faturamento
+document.getElementById('resetarInfos').addEventListener('click', async () => {
+    if (confirm('Realmente quer zerar a contagem?')) {
+        try {
+        const response = await fetch('https://api-recanto-production.up.railway.app/ResetarInfos', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Falha ao resetar pedido: ' + response.statusText);
+        }
+        
+    } catch (error) {
+        console.error('Erro ao resetar informações:', error);
+    }
+    }
+});

@@ -176,7 +176,7 @@ async function registerProduct() {
             }).showToast();
             productModal.classList.add('hidden');
 
-            localStorage.removeItem('cardapio');
+            sessionStorage.removeItem('cardapio');
 
         } else if (response.status === 403) {
             alert('Autenticação necessária. Faça login novamente.');
@@ -283,7 +283,7 @@ async function modifyUser() {
 
 async function loadItens() {
     try {
-        const cardapio = localStorage.getItem('cardapio') || 'nada';
+        const cardapio = sessionStorage.getItem('cardapio') || 'nada';
         let result= [];
 
         if (cardapio == 'nada') {
@@ -293,7 +293,7 @@ async function loadItens() {
             }
 
              result = await response.json();
-             localStorage.setItem('cardapio', JSON.stringify(result));
+             sessionStorage.setItem('cardapio', JSON.stringify(result));
         } else {
              result = JSON.parse(cardapio);
         }
@@ -377,7 +377,7 @@ async function modifyProduct() {
             
                 modifyProductModal.classList.add('hidden');
 
-                localStorage.removeItem('cardapio');
+                sessionStorage.removeItem('cardapio');
             } else {
                 alert("Erro ao modificar produto: " + (result.message || "Erro desconhecido"));
             }
