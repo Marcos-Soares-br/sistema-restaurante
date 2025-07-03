@@ -69,24 +69,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to fetch and display relatório
 async function fetchQuantidade() {
-    if( !qtd ){
-        try {
-            qtd = await fetch('https://api-recanto-production.up.railway.app/QtdDasPorcoes', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                },
-            });
+    try {
+        qtd = await fetch('https://api-recanto-production.up.railway.app/QtdDasPorcoes', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+        });
 
-        }  catch {
-            console.log('Erro ao buscar quantidade no banco de dados');
-        }
-
-        qtd = await qtd.json()
+    }  catch {
+        console.log('Erro ao buscar quantidade no banco de dados');
     }
 
+    qtd = await qtd.json()
 
+    console.log(qtd)
     if(qtd.length > 0) {
         const pTotal = document.getElementById('pTotal');
         let tot = 0;
