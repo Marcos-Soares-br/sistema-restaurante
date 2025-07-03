@@ -1,3 +1,5 @@
+import { pedirNovaAutenticacao } from "./autenticar.js";
+
 document.getElementById('nomeUsuario').textContent = 'Olá, ' + (localStorage.getItem('nome') || 'Usuário');
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -30,8 +32,8 @@ async function fetchPedidos(setor) {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
             });
-        if (!response.ok) {
-            throw new Error("Falha ao carregar os pedidos.");
+        if (response.status === 403) {
+            pedirNovaAutenticacao();       
         }
         const pedidos = await response.json(); 
         return pedidos.data; 
@@ -134,8 +136,8 @@ async function cancelarPedido(id, item, mesa) {
             body: JSON.stringify(details)
         });
 
-        if (!response.ok) {
-            throw new Error('Falha ao cancelar pedido: ' + response.statusText);
+        if (response.status === 403) {
+            pedirNovaAutenticacao();
         }
 
         const result = await response.json();
@@ -194,8 +196,8 @@ async function liberarPedido(id) {
             body: JSON.stringify(details)
         });
 
-        if (!response.ok) {
-            throw new Error('Falha ao cancelar pedido: ' + response.statusText);
+        if (response.status === 403) {
+            pedirNovaAutenticacao();
         }
 
         Toastify({

@@ -1,3 +1,5 @@
+import { pedirNovaAutenticacao } from "./autenticar.js";
+
 document.getElementById('nomeUser').textContent = 'Olá, ' + (localStorage.getItem('nome') || 'Usuário');
 document.getElementById('logoutButton').addEventListener('click', () => {
     localStorage.removeItem('token');
@@ -112,9 +114,7 @@ async function registerUser() {
             userModal.classList.add('hidden');
 
         } else if (response.status === 403) {
-            alert('Autenticação necessária. Faça login novamente.');
-            localStorage.removeItem('token');
-            window.location.href = '/login.html';
+            pedirNovaAutenticacao();
             
         } else  {
             alert(data.error || 'Falha ao cadastrar usuário.');
@@ -179,9 +179,7 @@ async function registerProduct() {
             sessionStorage.removeItem('cardapio');
 
         } else if (response.status === 403) {
-            alert('Autenticação necessária. Faça login novamente.');
-            localStorage.removeItem('token');
-            window.location.href = 'login.html';
+            pedirNovaAutenticacao();
 
         } else  {
             alert(data.error || 'Falha ao cadastrar produto.');
@@ -268,16 +266,13 @@ async function modifyUser() {
             modifyUserModal.classList.add('hidden');
 
         } else if (response.status === 403) {
-            alert('Autenticação necessária. Faça login novamente.');
-            localStorage.removeItem('token');
-            window.location.href = '/login.html';
+            pedirNovaAutenticacao();
             
         } else  {
             alert(data.error || 'Falha ao modificar usuário.');
         }
     } catch (error) {
         console.error('Erro na requisição:', error);
-        alert('Erro ao conectar com o servidor.');
     }
 }
 
@@ -378,12 +373,15 @@ async function modifyProduct() {
                 modifyProductModal.classList.add('hidden');
 
                 sessionStorage.removeItem('cardapio');
+
+            } else if (response.status === 403) {
+                pedirNovaAutenticacao();
+            
             } else {
                 alert("Erro ao modificar produto: " + (result.message || "Erro desconhecido"));
             }
         } catch (error) {
             console.error("Erro ao conectar com a API:", error);
-            alert("Erro na conexão com o servidor.");
         }
     
 }

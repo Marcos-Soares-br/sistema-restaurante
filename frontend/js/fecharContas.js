@@ -1,3 +1,5 @@
+import { pedirNovaAutenticacao } from "./autenticar.js";
+
 document.getElementById('nomeUsuario').textContent = 'Olá, ' + (localStorage.getItem('nome') || 'Usuário');
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -40,13 +42,18 @@ async function gerarBtnsMesa() {
 async function obterMesasAtivas() {
     try {
         const mesas = await fetch(`https://api-recanto-production.up.railway.app/ObterMesasAtivas`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                }
-            });
-            return await mesas.json();
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+        if(mesas.status == 403) {
+            pedirNovaAutenticacao();
+        }
+            
+        return await mesas.json();
+
     } catch (error) {
         console.error('Erro ao buscar pedidos: ', error);
     }
@@ -63,6 +70,7 @@ async function buscarPedidos(m) {
             });
 
             return await pedidos.json();
+
     } catch (error) {
         console.error('Erro ao buscar pedidos: ', error);
     }
@@ -282,8 +290,8 @@ async function removerItem(id) {
             body: JSON.stringify(details)
         });
 
-        if (!response.ok) {
-            throw new Error('Falha ao cancelar pedido: ' + response.statusText);
+        if (response.status === 403) {
+            pedirNovaAutenticacao();
         }
         
     } catch (error) {
@@ -327,8 +335,8 @@ async function finalizarConta() {
             body: JSON.stringify(details)
         });
 
-        if (!response.ok) {
-            throw new Error('Falha ao registrar venda: ' + response.statusText);
+        if (response.status == 403) {
+            pedirNovaAutenticacao();
         }
 
         sessionStorage.removeItem('faturamento');
@@ -339,7 +347,7 @@ async function finalizarConta() {
     // 2- atualizar a quantidade de porções vendidas
     const itens = dadosMesas[mesaSelecionada].itens;
     try {
-        const response = await fetch('https://api-recanto-production.up.railway.app/AtualizarQtd', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/AtualizarQdt', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -351,8 +359,6 @@ async function finalizarConta() {
         if (!response.ok) {
             throw new Error('Falha ao registrar qtd: ' + response.statusText);
         }
-
-        const result = await response.json();
 
         sessionStorage.removeItem('qtd');
     } catch (error) {
@@ -375,10 +381,8 @@ async function finalizarConta() {
             throw new Error('Falha ao encerrar mesa: ' + response.statusText);
         }
 
-        const result = await response.json();
-
         Toastify({
-            text: `Mesa encerrada: ${result}`,
+            text: `Mesa encerrada: ${mesaSelecionada}`,
             duration: 3000,
             newWindow: true,
             close: true,
@@ -422,7 +426,7 @@ async function finalizarConta() {
 
 async function mostrarOpcoes(filtro) {
     try {
-        const cardapio = localStorage.getItem('cardapio') || 'nada';
+        const cardapio = sessionStorage.getItem('cardapio') || 'nada';
         let result= [];
 
         if (cardapio == 'nada') {
@@ -432,7 +436,7 @@ async function mostrarOpcoes(filtro) {
             }
 
              result = await response.json();
-             localStorage.setItem('cardapio', JSON.stringify(result));
+             sessionStorage.setItem('cardapio', JSON.stringify(result));
         } else {
              result = JSON.parse(cardapio);
         }
@@ -467,7 +471,7 @@ async function mostrarOpcoes(filtro) {
 }
 
 const filtroProduto = document.getElementById('filtroP')
-filtroProduto.addEventListener('change', () => mostrarOpcoes(filtroProduto.value))
+filtroProduto.addEventListener('input', () => mostrarOpcoes(filtroProduto.value))
 
 // Função global para remover item (acessível pelo onclick no HTML)
 window.removerItem = removerItem;

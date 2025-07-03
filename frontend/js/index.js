@@ -69,8 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to fetch and display relatório
 async function fetchQuantidade() {
-    let qtd = sessionStorage.getItem('qtd');
-
     if( !qtd ){
         try {
             qtd = await fetch('https://api-recanto-production.up.railway.app/QtdDasPorcoes', {
@@ -118,7 +116,7 @@ async function fetchQuantidade() {
 
  async function fetchFaturamento() {
     const pFatur = document.getElementById('pFatur');
-    let faturamentoResp = sessionStorage.getItem('faturamento');
+    let faturamentoResp = sessionStorage.getItem('faturamentu');
     
     if (!faturamentoResp) {
         try {
@@ -135,11 +133,13 @@ async function fetchQuantidade() {
         }
 
         faturamentoResp = await faturamentoResp.json();
+        sessionStorage.setItem('faturamento', faturamentoResp)
     }
 
-    if(faturamentoResp[0].faturamento != undefined) {
-        pFatur.innerHTML ='R$ ' + (faturamentoResp[0].faturamento.replace('.', ',') || '0,00' );
-    }
+    console.log(faturamentoResp)
+    if(faturamentoResp != undefined) {
+        pFatur.innerHTML ='R$ ' + (faturamentoResp.replace('.', ',') || '0,00' );
+    } 
     
  }
 
@@ -151,8 +151,10 @@ async function carregarOpcoes(filtro) {
 
         if (cardapio == 'nada') {
             const response = await fetch('https://api-recanto-production.up.railway.app/ExibirCardapio');
-            if (!response.ok) {
-                throw new Error('Falha ao buscar cardápio: ' + response.statusText);
+            if (response.status == 403) {
+                alert('Autenticação necessária. Faça login novamente.');
+                localStorage.removeItem('token');
+                window.location.href = 'pages/login.html';
             }
 
              result = await response.json();
@@ -297,8 +299,10 @@ async function registrarPedido() {
             body: JSON.stringify(detalhesPedido)
         });
 
-        if (!response.ok) {
-            throw new Error('Falha ao registrar pedido: ' + response.statusText);
+        if (response.status == 403) {
+            alert('Autenticação necessária. Faça login novamente.');
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
         }
 
         const result = await response.json();
@@ -326,7 +330,7 @@ async function registrarPedido() {
 }
 
 const filtroProduto = document.getElementById('filtroP')
-filtroProduto.addEventListener('change', () =>  carregarOpcoes(filtroProduto.value) )
+filtroProduto.addEventListener('input', () =>  carregarOpcoes(filtroProduto.value) )
 
 async function verificaCancelamento() {
     try {
@@ -400,20 +404,20 @@ document.querySelector('#mesaNum').addEventListener('input', (e) => {
 document.getElementById('resetarInfos').addEventListener('click', async () => {
     if (confirm('Realmente quer zerar a contagem?')) {
         try {
-        const response = await fetch('https://api-recanto-production.up.railway.app/ResetarInfos', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+            const response = await fetch('https://api-recanto-production.up.railway.app/ResetarInfos', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
 
-        if (!response.ok) {
-            throw new Error('Falha ao resetar pedido: ' + response.statusText);
+            if (!response.ok) {
+                throw new Error('Falha ao resetar pedido: ' + response.statusText);
+            }
+            
+        } catch (error) {
+            console.error('Erro ao resetar informações:', error);
         }
-        
-    } catch (error) {
-        console.error('Erro ao resetar informações:', error);
-    }
     }
 });

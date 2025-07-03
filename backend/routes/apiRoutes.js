@@ -21,7 +21,7 @@ router.get('/ExibirPedidos', autenticarToken, dbController.exibirPedidos);
 router.post('/ExcluirPedidosDaMesa', autenticarToken, dbController.excluirPedidosDaMesa);
 
 router.get('/QtdDasPorcoes', autenticarToken, autorizarNivel('gerente'), dbController.qtdDasPorcoes);
-router.post('/RegistarVenda', autenticarToken, dbController.registarVenda);
+router.post('/RegistrarVenda', autenticarToken, dbController.registrarVenda);
 router.post('/AtualizarQtd', autenticarToken, dbController.atualizarQtd);
 router.get('/Faturamento', autenticarToken, autorizarNivel('gerente'), dbController.faturamento);
 

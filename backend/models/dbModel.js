@@ -201,7 +201,7 @@ async function qtdDasPorcoes() {
   }
 }
 
-async function registarVenda(valor) {
+async function registrarVenda(valor) {
   try {
     await envie`INSERT INTO vendas (valor_vendas) values (${valor})`;
 
@@ -216,7 +216,6 @@ async function atualizarQtd(itens) {
         SET qtd_quantidades = (qtd_quantidades + ${item.quantidade}) 
         WHERE nome_item_quantidades = ${item.nome};`;
     }
-    
   } finally {
   }
 }
@@ -226,7 +225,7 @@ async function faturamento() {
   try {
     const rows = await envie`SELECT SUM(v.valor_vendas) AS valor FROM vendas v`;
 
-    return `faturamento: ${rows.valor}`;
+    return `${rows[0].valor}`;
 
   } finally {
   }
@@ -322,7 +321,7 @@ export  {
   cadastrarUsuario, logarUsuario, listarUsuarios, atualizarUsuario, 
   registrarProduto, atualizarProduto, exibirCardapio, excluirPedidosDaMesa,
   registrarPedido, exibirPedidos, cancelarPedido, liberarPedido,
-  qtdDasPorcoes, atualizarQtd, registarVenda, faturamento,
+  qtdDasPorcoes, atualizarQtd, registrarVenda, faturamento,
   obterMesasAtivas, fechamentoDaConta, resetarInfos, 
   registrarAlerta, listarAlertas, deletarAlerta
 };

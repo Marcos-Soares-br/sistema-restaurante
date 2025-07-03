@@ -239,7 +239,7 @@ async function qtdDasPorcoes(req, res) {
 
 } 
 
-async function registarVenda(req, res) {
+async function registrarVenda(req, res) {
   try {
     const { valor } = req.body;
 
@@ -247,7 +247,7 @@ async function registarVenda(req, res) {
       return res.status(400).json({ error: 'Valor obrigatório.' });
     }
 
-    await dbModel.registarVenda(valor);
+    await dbModel.registrarVenda(valor);
     res.status(201).json({ message: 'Venda registrada com sucesso.' });
   } catch (error) {
     console.error('Erro ao registrar venda:', error);
@@ -257,17 +257,17 @@ async function registarVenda(req, res) {
 
 async function atualizarQtd(req, res) {
   try {
-    const { itens } = req.body;
+    const body = req.body;
 
-    if (!itens) {
-      return res.status(400).json({ error: 'Parametro obrigatório.' });
+    if (!body || body.length === 0) {
+      return res.status(400).json({ error: 'Array de objetos obrigatório no body.' });
     }
 
-    await dbModel.atualizarQtd(itens);
-    res.status(201).json({ message: 'qtd registrada com sucesso.' });
+    await dbModel.atualizarQtd(body);
+    res.status(201).json({ message: 'Quantidade(s) atualizada(s) com sucesso.' });
   } catch (error) {
-    console.error('Erro ao registrar qtd:', error);
-    res.status(500).json({ error: 'Erro ao registrar qtd', details: error.message });
+    console.error('Erro ao atualizar quantidade(s):', error);
+    res.status(500).json({ error: 'Erro ao atualizar quantidade(s)', details: error.message });
   }
 }
 
@@ -368,6 +368,6 @@ module.exports = {
   cadastrarUsuario, logarUsuario, listarUsuarios, atualizarUsuario,
   registrarProduto, atualizarProduto, exibirCardapio, excluirPedidosDaMesa,
   registrarPedido, cancelarPedido, liberarPedido, exibirPedidos,
-  qtdDasPorcoes, atualizarQtd, registarVenda,  faturamento,
+  qtdDasPorcoes, atualizarQtd, registrarVenda,  faturamento,
   obterMesasAtivas, fechamentoDaConta, resetarInfos, alertas
 };
