@@ -347,7 +347,7 @@ async function finalizarConta() {
     // 2- atualizar a quantidade de porções vendidas
     const itens = dadosMesas[mesaSelecionada].itens;
     try {
-        const response = await fetch('https://api-recanto-production.up.railway.app/AtualizarQdt', {
+        const response = await fetch('https://api-recanto-production.up.railway.app/AtualizarQtd', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
