@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to fetch and display relatório
 async function fetchQuantidade() {
+    let qtd;
     try {
         qtd = await fetch('https://api-recanto-production.up.railway.app/QtdDasPorcoes', {
             method: 'GET',
@@ -82,15 +83,15 @@ async function fetchQuantidade() {
         console.log('Erro ao buscar quantidade no banco de dados');
     }
 
-    qtd = await qtd.json()
+   qtd = await qtd.json()
 
-    console.log(qtd)
     if(qtd.length > 0) {
         const pTotal = document.getElementById('pTotal');
         let tot = 0;
         qtd.forEach( (elem) => {
             tot += parseInt(elem.qtd);
         })
+        pTotal.classList.remove('carregando');
         pTotal.innerHTML = tot;
 
         const tableQtdPorcoes = document.getElementById('tableQtdPorcoes');
@@ -114,7 +115,7 @@ async function fetchQuantidade() {
 
  async function fetchFaturamento() {
     const pFatur = document.getElementById('pFatur');
-    let faturamentoResp = sessionStorage.getItem('faturamentu');
+    let faturamentoResp = sessionStorage.getItem('faturamento');
     
     if (!faturamentoResp) {
         try {
@@ -136,6 +137,7 @@ async function fetchQuantidade() {
 
     console.log(faturamentoResp)
     if(faturamentoResp != undefined) {
+        pFatur.classList.remove('carregando');
         pFatur.innerHTML ='R$ ' + (faturamentoResp.replace('.', ',') || '0,00' );
     } 
     
@@ -175,7 +177,9 @@ async function carregarOpcoes(filtro) {
 
         } else {
             result.forEach( (elem) => {
-                if (elem.nome.includes(filtro)) {
+                let nome = elem.nome.toUpperCase();
+
+                if (nome.includes(filtro.toUpperCase())) {
                     const op = document.createElement('option');
                     op.id = 'option'+elem.id
                     op.value = elem.id;

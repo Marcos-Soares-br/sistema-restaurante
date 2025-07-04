@@ -455,7 +455,9 @@ async function mostrarOpcoes(filtro) {
 
         } else {
             result.forEach( (elem) => {
-                if (elem.nome.includes(filtro)) {
+                let nome = elem.nome.toUpperCase();
+
+                if ( nome.includes( filtro.toUpperCase() ) ) {
                     const op = document.createElement('option');
                     op.id = 'option'+elem.id
                     op.value = elem.id;

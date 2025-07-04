@@ -73,6 +73,22 @@ textarea {
     resize: none !important;
 }
 
+.carregando {
+  width: 100px;
+  height: 33px;
+  background: 
+    linear-gradient(90deg,#f76b6b 33%,rgb(255, 255, 255) 50%,#f76b6b 66%)
+    #f2f2f2;
+  background-size:300% 100%;
+  color: transparent !important;
+  animation: l1 1s infinite linear;
+}
+
+@keyframes l1 {
+  0% {background-position: right}
+}
+
+
 @media (max-width: 550px) {
     #nomeUsuario {
         display: none;
